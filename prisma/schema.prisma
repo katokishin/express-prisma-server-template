@@ -1,0 +1,52 @@
+datasource db {
+    provider    = "sqlite"
+    url         = "file:./dev.db"
+}
+
+generator client {
+    provider    = "prisma-client-js"
+}
+
+model User {
+    id              String      @id
+    payments        Payment[]   // Prisma relation: One User to Many Payments
+    invoices        Invoice[]   // Prisma relation: One User to Many Invoices
+    created_at      DateTime    @default(now())
+}
+
+model Advertiser {
+    id              String      @id
+    campaigns       Campaign[]  // Prisma relation: One Advertiser to Many Campaigns
+    created_at      DateTime    @default(now())
+}
+
+model Campaign {
+    id              String      @id
+    advertiser      Advertiser  @relation(fields: [advertiser_id], references: [id]) // Prisma relation
+    advertiser_id   String
+    content_url     String
+    budget_sats     Int
+    pending_sats    Int
+    paid_sats       Int
+}
+
+model Payment {
+    id              Int         @id @default(autoincrement())
+    user            User        @relation(fields: [user_id], references: [id]) // Prisma relation
+    user_id         String
+    invoice         Invoice[]   // Prisma relation: One Payment to Many Invoices
+    status          String
+    created_at      DateTime    @default(now())
+    updated_at      DateTime    @default(now())
+}
+
+model Invoice {
+    id              Int         @id @default(autoincrement())
+    sats_amount     Int
+    node            User        @relation(fields: [node_id], references: [id])
+    node_id         String
+    payment         Payment?    @relation(fields: [payment_id], references: [id]) // Prisma relation
+    payment_id      Int         @unique
+    status          String
+    created_at      DateTime    @default(now())
+}

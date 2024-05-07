@@ -15,7 +15,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}`))
 
 initialize({
     app: app,
-    apiDoc: path.resolve(__dirname, "openapi.json"),
+    apiDoc: path.resolve(__dirname, "../openapi.json"),
     validateApiDoc: true,
     
     operations: {

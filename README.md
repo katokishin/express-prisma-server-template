@@ -1,8 +1,22 @@
-# Express + Typescript + Prisma boilerplate
-Initial DB type is SQLite. Change in `prisma/schema.prisma`.
+# Express + TypeScript + Prisma boilerplate
 
-Run with `npm run dev` for nodemon.
-Production build & run script to be added.
+Requires **Node >=26.12.1** (and npm >=10.5.0), enforced via `engines` in `package.json`.
+
+Before first run, generate the Prisma Client:
+
+```sh
+npx prisma generate
+```
+
+Copy `.env.example` to `.env` and fill in the values.
+
+## Scripts
+
+- `npm run dev` - start in watch mode with `nodemon` (TypeScript, no build step)
+- `npm run build` - compile TypeScript to `dist/`
+- `npm start` - build, then run `dist/index.js` with env vars loaded from `.env` via Node `--env-file`
+
+Initial DB type is SQLite. Change it in `prisma/schema.prisma`.
 
 ## Prisma Studio
 You can inspect the database visually with the GUI provided by Prisma Studio.
@@ -25,9 +39,9 @@ Handle JWTs with middleware.
 Uses Alex Bosworth's ["Lightning Methods"](https://www.npmjs.com/package/lightning) for TypeScript compatible Lnd Grpc API.
 
 ## Dotenv
-From Node v20.6.0, dotenv is included by using script `node --env-file=.env index.ts`.
+From Node v20.6.0, dotenv is included in Node itself via `node --env-file=.env index.js`.
 
-Therefore, this repository enforces node version >=20.6.0.
+This repository enforces node version >=26.12.1.
 
 Nodemon can also be replaced in Node v22, but we use it anyway because Linux support for `--watch` is not official.
 
